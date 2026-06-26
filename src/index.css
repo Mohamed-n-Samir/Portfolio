@@ -1,111 +1,285 @@
+@import "tailwindcss" source(none);
+@import "tw-animate-css";
+@source "../src";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-3: var(--accent-3);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+}
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --background: oklch(0.14 0.012 250);
+  --foreground: oklch(0.96 0.005 250);
+  --panel: oklch(0.18 0.014 250);
+  --panel-2: oklch(0.21 0.016 250);
+  --border: oklch(0.28 0.018 250);
+  --muted: oklch(0.24 0.014 250);
+  --muted-foreground: oklch(0.65 0.02 250);
+  --accent: oklch(0.72 0.18 45); /* orange */
+  --accent-2: oklch(0.78 0.16 145); /* green */
+  --accent-3: oklch(0.72 0.16 270); /* purple */
+  --success: oklch(0.78 0.16 145);
+  --warning: oklch(0.82 0.16 90);
+}
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html,
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+  body {
+    font-family: var(--font-mono);
+    /* background-image:
+      linear-gradient(to right, oklch(0.22 0.014 250 / 0.5) 1px, transparent 1px),
+      linear-gradient(to bottom, oklch(0.22 0.014 250 / 0.5) 1px, transparent 1px);
+    background-size: 48px 48px; */
+  }
+  ::selection {
+    background: oklch(0.72 0.18 45 / 0.35);
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+@utility glow-orange {
+  box-shadow:
+    0 0 0 1px oklch(0.72 0.18 45 / 0.3),
+    0 10px 40px -10px oklch(0.72 0.18 45 / 0.35);
+}
+
+@utility text-gradient-hero {
+  background: linear-gradient(
+    90deg,
+    oklch(0.78 0.18 45),
+    oklch(0.72 0.16 25),
+    oklch(0.7 0.16 320),
+    oklch(0.7 0.18 260)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility panel {
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  transition:
+    border-color 300ms ease,
+    box-shadow 300ms ease,
+    transform 300ms ease;
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
   }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
   }
 }
-p {
-  margin: 0;
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 oklch(0.72 0.18 45 / 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 10px oklch(0.72 0.18 45 / 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 oklch(0.72 0.18 45 / 0);
+  }
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+@utility reveal {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+@utility reveal-in {
+  animation: reveal-up 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@utility float-slow {
+  animation: float-y 6s ease-in-out infinite;
+}
+@utility blink-caret {
+  animation: blink 1.1s steps(1) infinite;
+}
+@utility pulse-dot {
+  animation: pulse-ring 2s ease-out infinite;
+}
+@utility shimmer-text {
+  background: linear-gradient(
+    90deg,
+    oklch(0.65 0.02 250) 0%,
+    oklch(0.96 0.005 250) 50%,
+    oklch(0.65 0.02 250) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 4s linear infinite;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+@utility lift {
+  transition:
+    transform 350ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 350ms ease,
+    box-shadow 350ms ease;
+}
+@utility lift-hover {
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px -12px oklch(0.72 0.18 45 / 0.25);
+  }
+}
+
+a,
+button {
+  transition:
+    color 200ms ease,
+    background-color 200ms ease,
+    border-color 200ms ease,
+    transform 200ms ease;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Typewriter sequence — each direct child reveals left-to-right in order */
+@keyframes type-line {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes caret-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.type-seq > * {
+  clip-path: inset(0 100% 0 0);
+  position: relative;
+}
+.type-seq.play > * {
+  animation: type-line 420ms steps(36, end) both;
+}
+.type-seq.play > *:nth-child(1) {
+  animation-delay: 80ms;
+}
+.type-seq.play > *:nth-child(2) {
+  animation-delay: 320ms;
+}
+.type-seq.play > *:nth-child(3) {
+  animation-delay: 560ms;
+}
+.type-seq.play > *:nth-child(4) {
+  animation-delay: 800ms;
+}
+.type-seq.play > *:nth-child(5) {
+  animation-delay: 1040ms;
+}
+.type-seq.play > *:nth-child(6) {
+  animation-delay: 1280ms;
+}
+.type-seq.play > *:nth-child(7) {
+  animation-delay: 1520ms;
+}
+.type-seq.play > *:nth-child(8) {
+  animation-delay: 1760ms;
+}
+.type-seq.play > *:nth-child(9) {
+  animation-delay: 2000ms;
+}
+.type-seq.play > *:nth-child(10) {
+  animation-delay: 2240ms;
+}
+.type-seq.play > *:nth-child(11) {
+  animation-delay: 2480ms;
+}
+.type-seq.play > *:nth-child(12) {
+  animation-delay: 2720ms;
+}
+.type-seq.play > *:nth-child(13) {
+  animation-delay: 2960ms;
+}
+.type-seq.play > *:nth-child(14) {
+  animation-delay: 3200ms;
+}
+
+.type-caret {
+  display: inline-block;
+  width: 8px;
+  height: 1em;
+  background: oklch(0.78 0.18 45);
+  margin-left: 4px;
+  vertical-align: -2px;
+  animation: caret-blink 1s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .type-seq > * {
+    clip-path: none !important;
+  }
 }
