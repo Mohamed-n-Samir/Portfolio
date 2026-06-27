@@ -9,11 +9,11 @@ function About() {
       <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
         {/* Left Card */}
         <div className="panel p-6">
-          <div className="relative aspect-square overflow-hidden rounded-xl border border-border bg-gradient-to-br from-accent/20 via-accent/10 to-transparent">
+          <div className="relative mx-auto aspect-square max-w-[400px] overflow-hidden rounded-xl border border-border bg-gradient-to-br from-accent/20 via-accent/10 to-transparent">
             <img
               src={profileImage}
               alt="Mohamed Samir"
-              className="object-cover transition-transform duration-500 hover:scale-105"
+              className="w-full object-cover"
             />
 
             {/* Overlay */}

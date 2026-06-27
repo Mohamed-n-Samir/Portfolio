@@ -14,7 +14,7 @@ function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <a href="#home" className="flex items-center gap-2 font-display text-sm">
+        <a href="#home" className="flex shrink-0 items-center gap-2 font-display text-sm whitespace-nowrap">
           <span className="grid h-7 w-7 place-items-center rounded-md bg-accent/15 text-accent">
             <Terminal className="h-4 w-4" />
           </span>
@@ -22,7 +22,7 @@ function Navbar() {
             Mohamed<span className="text-accent">.</span>Samir
           </span>
         </a>
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className="hidden items-center gap-1 min-[875px]:flex">
           {NAV.map(([label, href]) => (
             <a
               key={href}

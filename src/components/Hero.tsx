@@ -8,11 +8,11 @@ import { loaded_modules } from "@/data/skills";
 
 function Hero() {
   return (
-    <section id="home" className="relative grid gap-10 py-20 md:grid-cols-2 md:py-28">
-      <div className="absolute right-6 top-6 hidden font-mono text-xs text-muted-foreground/50 md:block">
+    <section id="home" className="relative grid gap-10 py-20 min-[875px]:grid-cols-2 min-[875px]:py-28">
+      <div className="absolute right-6 top-6 font-mono text-xs text-muted-foreground/50">
         {"<System.Init />"}
       </div>
-      <div className="absolute bottom-6 left-2 hidden font-mono text-xs text-muted-foreground/40 md:block">
+      <div className="absolute bottom-6 left-2 font-mono text-xs text-muted-foreground/40">
         while(alive) {"{ code() }"}
       </div>
 
@@ -77,7 +77,7 @@ function Hero() {
         </div>
       </div>
 
-      <div className="relative">
+      <div className="relative min-w-0">
         <div className="panel overflow-hidden shadow-2xl shadow-black/40">
           <WindowBar title="portfolio.tsx"/>
           <pre className="overflow-auto bg-[oklch(0.11_0.01_250)] p-5 text-[12.5px] leading-6">
@@ -110,7 +110,7 @@ function Hero() {
 
       <a
         href="#about"
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-accent"
+        className="absolute -bottom-4 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-accent"
       >
         <ChevronDown className="h-5 w-5 animate-bounce" />
       </a>

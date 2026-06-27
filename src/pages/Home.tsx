@@ -4,7 +4,7 @@ import About from "@/components/About";
 
 function Home() {
   return (
-    <div className="min-h-screen text-foreground">
+    <div>
       <Navbar />
       <main className="mx-auto max-w-7xl px-6">
         <Hero/>
