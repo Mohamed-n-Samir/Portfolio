@@ -1,6 +1,9 @@
 import { ExternalLink, Terminal, Play, Folder, ChevronDown } from "lucide-react";
 import { GithubIcon } from "./icons/lucide-github";
 import TypingBlock from "@/components/TypingBlock";
+import CodeLine from "@/components/CodeLine";
+import codeLines from "@/data/codeLines";
+
 
 function Hero() {
   return (
@@ -86,23 +89,13 @@ function Hero() {
           </div>
           <pre className="overflow-auto bg-[oklch(0.11_0.01_250)] p-5 text-[12.5px] leading-6">
             <TypingBlock className="font-mono">
-              <span className="text-muted-foreground">// Welcome to my workspace</span>
-              <span className="text-[oklch(0.72_0.16_270)]">import</span> {"{ "}
-              <span className="text-[oklch(0.78_0.16_145)]">Developer</span>
-              {" }"} <span className="text-[oklch(0.72_0.16_270)]">from</span>{" "}
-              <span className="text-[oklch(0.78_0.16_45)]">'./universe'</span>;
-              <span className="text-[oklch(0.72_0.16_270)]">const</span>{" "}
-              <span className="text-[oklch(0.78_0.16_145)]">Portfolio</span> = () {"=> {"}
-              <span className="text-[oklch(0.72_0.16_270)]">return</span> ({"<"}
-              <span className="text-[oklch(0.78_0.16_145)]">Developer</span>
-              name=<span className="text-[oklch(0.78_0.16_45)]">"Mohamed Samir"</span>
-              role=<span className="text-[oklch(0.78_0.16_45)]">"Full Stack Engineer"</span>
-              passion=
-              <span className="text-[oklch(0.78_0.16_45)]">"Engineering Beyond Boundaries"</span>
-              {"/>"}
-              );
-              {"};"}
-              <span className="type-caret" />
+              {codeLines.map((line, index) => (
+                <CodeLine key={index} n={index + 1}>
+                  <span className="inline-block" style={{ paddingLeft: `${line.indent}ch` }}>
+                    {line.content}
+                  </span>
+                </CodeLine>
+              ))}
             </TypingBlock>
           </pre>
           <div className="flex gap-2 border-t border-border bg-panel-2 px-4 py-3">
