@@ -1,9 +1,10 @@
 import { ExternalLink, Terminal, Play, Folder, ChevronDown } from "lucide-react";
 import { GithubIcon } from "./icons/lucide-github";
 import TypingBlock from "@/components/TypingBlock";
+import WindowBar from "./WindowBar";
 import CodeLine from "@/components/CodeLine";
 import codeLines from "@/data/codeLines";
-
+import { loaded_modules } from "@/data/skills";
 
 function Hero() {
   return (
@@ -65,7 +66,7 @@ function Hero() {
           <span className="text-[10px] uppercase tracking-widest text-muted-foreground">
             LOADED_MODULES:
           </span>
-          {["React", "Next.js", "Node.js", "TypeScript", "Java", "Spring"].map((m) => (
+          {loaded_modules.map((m) => (
             <span
               key={m}
               className="rounded-md border border-accent/30 bg-accent/5 px-2 py-1 text-[10px] uppercase tracking-wider text-accent"
@@ -78,15 +79,7 @@ function Hero() {
 
       <div className="relative">
         <div className="panel overflow-hidden shadow-2xl shadow-black/40">
-          <div className="flex items-center justify-between border-b border-border bg-panel-2 px-4 py-2.5">
-            <div className="flex gap-1.5">
-              <span className="h-3 w-3 rounded-full bg-[oklch(0.65_0.2_25)]" />
-              <span className="h-3 w-3 rounded-full bg-[oklch(0.78_0.16_90)]" />
-              <span className="h-3 w-3 rounded-full bg-[oklch(0.78_0.16_145)]" />
-            </div>
-            <span className="text-xs text-muted-foreground">portfolio.tsx</span>
-            <span className="w-10" />
-          </div>
+          <WindowBar title="portfolio.tsx"/>
           <pre className="overflow-auto bg-[oklch(0.11_0.01_250)] p-5 text-[12.5px] leading-6">
             <TypingBlock className="font-mono">
               {codeLines.map((line, index) => (

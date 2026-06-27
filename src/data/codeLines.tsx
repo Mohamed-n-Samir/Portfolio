@@ -50,7 +50,7 @@ const codeLines = [
     content: (
       <>
         name=
-        <span className="text-[oklch(0.78_0.16_45)]">"Abdul Momin"</span>
+        <span className="text-[oklch(0.78_0.16_45)]">"Mohamed Samir"</span>
       </>
     ),
   },
