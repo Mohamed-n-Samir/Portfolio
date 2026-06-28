@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
+import Experience from "@/components/Experience";
 
 function Home() {
   return (
@@ -11,6 +12,7 @@ function Home() {
         <Hero/>
         <About/>
         <Skills/>
+        <Experience/>
       </main>
     </div>
   );
