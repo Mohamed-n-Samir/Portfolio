@@ -1,11 +1,11 @@
 import Section from "@/components/Section";
-import { skills } from "@/data/skills";
+import { SKILLS } from "@/data/skills";
 
 function Skills() {
   return (
     <Section id="skills" title="# Skills.json" subtitle="// modules currently loaded into the runtime">
       <div className="grid gap-4 md:grid-cols-2">
-        {skills.map((g) => (
+        {SKILLS.map((g) => (
           <div key={g.title} className="panel lift lift-hover p-5">
             <div className="mb-4 flex items-center justify-between border-b border-border pb-3">
               <span className={`font-semibold ${g.color}`}>{g.title}</span>

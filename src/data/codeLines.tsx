@@ -1,4 +1,4 @@
-const codeLines = [
+const CODE_LINES = [
   {
     indent: 0,
     content: <span className="text-muted-foreground">// Welcome to my workspace</span>,
@@ -91,4 +91,4 @@ const codeLines = [
   },
 ];
 
-export default codeLines
+export default CODE_LINES

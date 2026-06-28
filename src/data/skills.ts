@@ -1,5 +1,5 @@
 const loaded_modules = ["React", "Next.js", "Node.js", "TypeScript", "Java", "Spring"];
-const skills: Array<{ title: string; color: string; items: string[] }> = [
+const SKILLS: Array<{ title: string; color: string; items: string[] }> = [
   {
     title: "frontend/",
     color: "text-accent",
@@ -22,4 +22,4 @@ const skills: Array<{ title: string; color: string; items: string[] }> = [
   },
 ];
 
-export { skills, loaded_modules };
+export { SKILLS, loaded_modules };

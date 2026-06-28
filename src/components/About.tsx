@@ -1,7 +1,7 @@
 import Section from "@/components/Section";
 import WindowBar from "@/components/WindowBar";
 import profileImage from "@/assets/photos/profile.jpeg";
-import { headline, metaData, stats, whoami, expertise, philosophy } from "@/data/about";
+import { HEADLINE, META_DATA, STATS, WHOAMI, EXPERTISE, PHILOSOPHY } from "@/data/about";
 
 function About() {
   return (
@@ -24,12 +24,12 @@ function About() {
             <h3 className="font-display text-lg font-semibold">Mohamed Samir</h3>
 
             <p className="mt-1 text-sm text-muted-foreground">
-              {headline}
+              {HEADLINE}
             </p>
           </div>
 
           <dl className="mt-5 space-y-3 text-xs">
-            {metaData.map(([key, value]) => (
+            {META_DATA.map(([key, value]) => (
               <div
                 key={key}
                 className="flex items-center justify-between border-b border-border/60 pb-2 last:border-0"
@@ -51,7 +51,7 @@ function About() {
               <p className="font-mono text-accent">$ whoami</p>
 
               <p className="mt-2 text-muted-foreground">
-                {whoami}
+                {WHOAMI}
               </p>
             </div>
 
@@ -59,7 +59,7 @@ function About() {
               <p className="font-mono text-accent">$ cat expertise.txt</p>
 
               <p className="mt-2 text-muted-foreground">
-                {expertise}
+                {EXPERTISE}
               </p>
             </div>
 
@@ -67,12 +67,12 @@ function About() {
               <p className="font-mono text-accent">$ cat philosophy.md</p>
 
               <p className="mt-2 text-muted-foreground">
-                {philosophy}
+                {PHILOSOPHY}
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-4 pt-2 md:grid-cols-4">
-              {stats.map(([key, value]) => (
+              {STATS.map(([key, value]) => (
                 <div
                   key={key}
                   className="rounded-xl border border-border bg-panel-2 p-5 text-center transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg"
