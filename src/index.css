@@ -1,4 +1,4 @@
-@import "tailwindcss" source(none);
+@import "tailwindcss";
 @import "tw-animate-css";
 @source "../src";
 
@@ -63,10 +63,10 @@
   }
   body {
     font-family: var(--font-mono);
-    /* background-image:
+    background-image:
       linear-gradient(to right, oklch(0.22 0.014 250 / 0.5) 1px, transparent 1px),
       linear-gradient(to bottom, oklch(0.22 0.014 250 / 0.5) 1px, transparent 1px);
-    background-size: 48px 48px; */
+    background-size: 48px 48px;
   }
   ::selection {
     background: oklch(0.72 0.18 45 / 0.35);

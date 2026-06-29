@@ -3,7 +3,7 @@ import { GithubIcon } from "./icons/lucide-github";
 import TypingBlock from "@/components/TypingBlock";
 import WindowBar from "./WindowBar";
 import CodeLine from "@/components/CodeLine";
-import codeLines from "@/data/codeLines";
+import {CODE_LINES} from "@/data/codeLines";
 import { loaded_modules } from "@/data/skills";
 
 function Hero() {
@@ -82,7 +82,7 @@ function Hero() {
           <WindowBar title="portfolio.tsx"/>
           <pre className="overflow-auto bg-[oklch(0.11_0.01_250)] p-5 text-[12.5px] leading-6">
             <TypingBlock className="font-mono">
-              {codeLines.map((line, index) => (
+              {CODE_LINES.map((line, index) => (
                 <CodeLine key={index} n={index + 1}>
                   <span className="inline-block" style={{ paddingLeft: `${line.indent}ch` }}>
                     {line.content}
