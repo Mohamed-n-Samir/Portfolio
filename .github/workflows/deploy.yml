@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - it-track
 
 jobs:
   build-deploy:
