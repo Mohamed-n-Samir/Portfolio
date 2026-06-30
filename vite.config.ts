@@ -12,7 +12,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: "/Portfolio/",
+  base: process.env.VITE_BASE_PATH || '/',
   server: {
     open: true,
     port: 3001,
