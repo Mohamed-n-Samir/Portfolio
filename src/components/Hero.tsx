@@ -25,7 +25,7 @@ function Hero() {
         <h1 className="font-display text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl">
           Hello, I'm
           <br />
-          <span className="text-gradient-hero">Mohamed Samir</span>
+          <span className="text-gradient-hero">Mohamed Samir (IT)</span>
         </h1>
 
         <p className="mt-6 max-w-lg text-sm leading-relaxed text-muted-foreground md:text-base">
