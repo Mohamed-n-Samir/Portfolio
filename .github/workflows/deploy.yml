@@ -6,9 +6,18 @@ on:
     branches:
       - main
       - it-track
+  workflow_run:
+    workflows: ["Daily AI Blog Post Generator"]
+    types:
+      - completed
+    branches:
+      - main
+      - it-track
 
 jobs:
   build-deploy:
+    # Only run if triggered manually, by push, or if the generator workflow completed successfully
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -23,10 +32,10 @@ jobs:
       - name: Set deployment config
         id: deploy_config
         run: |
-          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+          if [ "${{ github.ref }}" == "refs/heads/main" ] || [ "${{ github.event.workflow_run.head_branch }}" == "main" ]; then
             echo "BASE_PATH=/Portfolio/fs-portfolio/" >> $GITHUB_ENV
             echo "DEST_DIR=fs-portfolio" >> $GITHUB_ENV
-          elif [ "${{ github.ref }}" == "refs/heads/it-track" ]; then
+          elif [ "${{ github.ref }}" == "refs/heads/it-track" ] || [ "${{ github.event.workflow_run.head_branch }}" == "it-track" ]; then
             echo "BASE_PATH=/Portfolio/it-portfolio/" >> $GITHUB_ENV
             echo "DEST_DIR=it-portfolio" >> $GITHUB_ENV
           fi
@@ -37,7 +46,6 @@ jobs:
       - name: Build project
         env:
           VITE_BASE_PATH: ${{ env.BASE_PATH }}
-
         run: npm run build
 
       - name: Create SPA 404 page
