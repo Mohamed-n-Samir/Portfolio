@@ -4,6 +4,8 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 
 import App from "./App";
 import Home from "./pages/Home";
+import BlogsList from "./pages/BlogsList";
+import BlogPostDetail from "./pages/BlogPostDetail";
 import NotFound from "./pages/NotFound";
 import ErrorPage from "./components/ErrorComponent";
 
@@ -19,6 +21,14 @@ const router = createBrowserRouter(
         {
           index: true,
           element: <Home />,
+        },
+        {
+          path: "blogs",
+          element: <BlogsList />,
+        },
+        {
+          path: "blogs/:slug",
+          element: <BlogPostDetail />,
         },
         {
           path: "*",

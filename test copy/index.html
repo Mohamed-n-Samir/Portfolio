@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Studio | Portfolio Editor</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            background: 'oklch(0.14 0.012 250)',
+            foreground: 'oklch(0.96 0.005 250)',
+            panel: 'oklch(0.18 0.014 250)',
+            'panel-2': 'oklch(0.21 0.016 250)',
+            border: 'oklch(0.28 0.018 250)',
+            muted: 'oklch(0.24 0.014 250)',
+            'muted-foreground': 'oklch(0.65 0.02 250)',
+            accent: 'oklch(0.72 0.18 45)', // orange
+            'accent-2': 'oklch(0.78 0.16 145)', // green
+            'accent-3': 'oklch(0.72 0.15 270)', // purple
+          },
+          fontFamily: {
+            mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+            display: ['"Space Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: JetBrains Mono and Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+
+  <!-- Quill.js Snow Theme Style -->
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom CSS file -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-background text-foreground font-mono min-h-screen">
+  
+  <!-- Grid Overlay (matches portfolio bg) -->
+  <div class="fixed inset-0 grid-bg pointer-events-none z-0"></div>
+
+  <!-- Main Container -->
+  <div class="relative z-10 flex flex-col min-h-screen">
+    
+    <!-- Navigation Bar -->
+    <header class="border-b border-border bg-background/80 backdrop-blur-md sticky top-0 z-40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="h-8 w-8 rounded-lg bg-gradient-to-tr from-accent to-accent-3 flex items-center justify-center text-background font-bold text-lg font-display glow-orange">
+            Ω
+          </div>
+          <div>
+            <h1 class="text-xl font-bold font-display tracking-tight text-gradient-hero">BLOG STUDIO</h1>
+            <p class="text-[10px] text-muted-foreground tracking-widest uppercase font-mono">Antigravity Portfolio Manager</p>
+          </div>
+        </div>
+        
+        <!-- Actions -->
+        <div class="flex items-center gap-3">
+          <button id="btn-export-sql" class="btn-secondary text-xs py-1.5 px-3 rounded-md flex items-center gap-1.5 border border-border hover:border-accent hover:text-accent">
+            <i data-lucide="database" class="w-3.5 h-3.5"></i>
+            Export SQL
+          </button>
+          <button id="btn-export-json" class="btn-secondary text-xs py-1.5 px-3 rounded-md flex items-center gap-1.5 border border-border hover:border-accent hover:text-accent">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            Backup JSON
+          </button>
+          <button id="btn-import-json-trigger" class="btn-secondary text-xs py-1.5 px-3 rounded-md flex items-center gap-1.5 border border-border hover:border-accent hover:text-accent">
+            <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+            Restore
+          </button>
+          <input type="file" id="import-json-file" class="hidden" accept=".json">
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace Split Layout -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col lg:flex-row gap-6">
+      
+      <!-- Left Panel: Sidebar (Saved posts) -->
+      <section class="w-full lg:w-80 flex flex-col gap-4 flex-shrink-0">
+        
+        <button id="btn-new-post" class="w-full py-3 px-4 rounded-xl border border-dashed border-accent/40 text-accent hover:border-accent hover:bg-accent/5 font-display font-medium flex items-center justify-center gap-2 transition duration-300 shadow-sm hover:shadow-accent/20">
+          <i data-lucide="plus-circle" class="w-5 h-5"></i>
+          Create New Post
+        </button>
+
+        <!-- Search & Filter Card -->
+        <div class="panel p-4 flex flex-col gap-3">
+          <div class="relative">
+            <i data-lucide="search" class="absolute left-3 top-2.5 w-4 h-4 text-muted-foreground"></i>
+            <input type="text" id="search-posts" placeholder="Search saved posts..." class="w-full pl-9 pr-4 py-2 text-xs bg-panel-2 border border-border rounded-lg focus:outline-none focus:border-accent text-foreground">
+          </div>
+        </div>
+
+        <!-- Saved Posts Container -->
+        <div class="flex-1 flex flex-col gap-3 max-h-[500px] lg:max-h-[calc(100vh-280px)] overflow-y-auto pr-1" id="posts-list">
+          <!-- Dynamically populated card templates -->
+          <div class="text-center py-8 text-muted-foreground text-xs border border-dashed border-border rounded-xl">
+            No posts created yet.
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Panel: Editor Area -->
+      <section class="flex-1 min-w-0">
+        <div class="panel p-6 flex flex-col gap-6" id="editor-workspace">
+          
+          <!-- Post Header Inputs -->
+          <div class="flex flex-col gap-1">
+            <input type="text" id="post-title" placeholder="Enter post title..." class="text-3xl font-extrabold font-display bg-transparent border-b border-border text-foreground focus:outline-none focus:border-accent w-full py-2 tracking-tight transition duration-300">
+            
+            <!-- Slug indicator and controls -->
+            <div class="flex items-center gap-2 mt-2 text-xs text-muted-foreground font-mono">
+              <span class="font-bold text-accent/80">SLUG:</span>
+              <span id="slug-preview" class="px-2 py-0.5 rounded bg-muted">my-post-slug</span>
+              <button id="btn-edit-slug" class="hover:text-accent text-muted-foreground flex items-center gap-1 transition" title="Edit Custom Slug">
+                <i data-lucide="lock" id="slug-lock-icon" class="w-3.5 h-3.5"></i>
+                <span id="slug-lock-text">Auto</span>
+              </button>
+              <input type="text" id="slug-input" class="hidden py-0.5 px-2 bg-panel-2 border border-border rounded focus:outline-none focus:border-accent text-foreground text-xs w-48 font-mono">
+            </div>
+          </div>
+
+          <!-- Description Section -->
+          <div class="flex flex-col gap-1.5">
+            <label for="post-desc" class="text-xs font-semibold font-display uppercase tracking-widest text-muted-foreground">Post Short Summary / Snippet</label>
+            <textarea id="post-desc" rows="2" placeholder="Write a short summary that will catch user attention in the post index..." class="w-full p-3 bg-panel-2 border border-border rounded-xl focus:outline-none focus:border-accent text-foreground text-sm line-clamp-2"></textarea>
+          </div>
+
+          <!-- Metadata Grid Fields -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <!-- Left Grid Items -->
+            <div class="flex flex-col gap-4">
+              
+              <!-- Published Date -->
+              <div class="flex flex-col gap-1.5">
+                <label for="post-date" class="text-xs font-semibold font-display uppercase tracking-widest text-muted-foreground">Published Date</label>
+                <div class="relative">
+                  <input type="date" id="post-date" class="w-full p-2.5 bg-panel-2 border border-border rounded-xl focus:outline-none focus:border-accent text-foreground text-sm">
+                </div>
+              </div>
+
+              <!-- Read Time minutes -->
+              <div class="flex flex-col gap-1.5">
+                <div class="flex justify-between items-center">
+                  <label for="post-read-time" class="text-xs font-semibold font-display uppercase tracking-widest text-muted-foreground">Read Time (minutes)</label>
+                  <span id="read-time-indicator" class="text-[10px] text-accent/70 font-mono">Auto-calculating...</span>
+                </div>
+                <input type="number" id="post-read-time" min="1" class="w-full p-2.5 bg-panel-2 border border-border rounded-xl focus:outline-none focus:border-accent text-foreground text-sm">
+              </div>
+
+              <!-- Pinned status -->
+              <div class="flex items-center justify-between p-3 bg-panel-2 border border-border rounded-xl">
+                <div>
+                  <h3 class="text-sm font-semibold text-foreground">Pin to Featured</h3>
+                  <p class="text-[11px] text-muted-foreground">Display this post at the top of your portfolio blog list</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="post-pinned" class="sr-only peer">
+                  <div class="w-11 h-6 bg-muted peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-foreground after:border-border after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent peer-checked:shadow-[0_0_8px_rgba(249,115,22,0.4)]"></div>
+                </label>
+              </div>
+
+            </div>
+
+            <!-- Right Grid Items -->
+            <div class="flex flex-col gap-4">
+              
+              <!-- Featured Image URL -->
+              <div class="flex flex-col gap-1.5">
+                <label for="post-image" class="text-xs font-semibold font-display uppercase tracking-widest text-muted-foreground">Featured Image URL</label>
+                <input type="text" id="post-image" placeholder="e.g. /blogs/ai_code_fails.png" class="w-full p-2.5 bg-panel-2 border border-border rounded-xl focus:outline-none focus:border-accent text-foreground text-sm">
+              </div>
+
+              <!-- Tags container -->
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-semibold font-display uppercase tracking-widest text-muted-foreground">Tags</label>
+                <div class="flex flex-wrap gap-2 p-2 min-h-11 bg-panel-2 border border-border rounded-xl items-center" id="tags-wrapper">
+                  <!-- Tag badges will render here dynamically -->
+                  <input type="text" id="tag-input" placeholder="Type tag and press Enter" class="flex-1 min-w-[120px] bg-transparent border-none focus:outline-none focus:ring-0 text-xs text-foreground p-1 font-mono">
+                </div>
+              </div>
+
+              <!-- Featured Image Live Preview -->
+              <div class="border border-border rounded-xl overflow-hidden bg-panel-2/30 aspect-[16/9] flex items-center justify-center relative group">
+                <img id="image-preview" src="" alt="Featured Preview" class="w-full h-full object-cover hidden">
+                <div id="image-placeholder" class="text-center text-muted-foreground text-xs p-4 flex flex-col items-center gap-1.5">
+                  <i data-lucide="image" class="w-6 h-6 stroke-[1.5]"></i>
+                  <span>Live Image Preview</span>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Main Rich Text Editor Container -->
+          <div class="flex flex-col gap-2">
+            <label class="text-xs font-semibold font-display uppercase tracking-widest text-muted-foreground">Blog Post Content</label>
+            <div id="editor-container" class="rounded-xl overflow-hidden">
+              <div id="editor" class="min-h-[350px]"></div>
+            </div>
+          </div>
+
+          <!-- Action Control Bar -->
+          <div class="flex items-center justify-between border-t border-border pt-4 mt-2">
+            <button id="btn-delete-current" class="py-2.5 px-4 rounded-xl border border-red-500/20 hover:border-red-500 hover:bg-red-500/10 text-red-400 text-xs flex items-center gap-1.5 transition hidden">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+              Delete Post
+            </button>
+            <div class="flex-1"></div>
+            <div class="flex items-center gap-3">
+              <button id="btn-reset" class="py-2.5 px-5 rounded-xl border border-border text-muted-foreground hover:text-foreground hover:bg-muted text-xs transition">
+                Reset
+              </button>
+              <button id="btn-save" class="py-2.5 px-6 rounded-xl bg-accent text-background font-semibold font-display text-sm hover:brightness-110 active:scale-95 transition shadow-lg shadow-accent/20 flex items-center gap-2">
+                <i data-lucide="save" class="w-4 h-4"></i>
+                Save Post
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-border mt-auto bg-background/50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between text-[11px] text-muted-foreground font-mono">
+        <span>Antigravity Web Studio Engine v1.0.0</span>
+        <span>Local Database Saved in LocalStorage</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- SQL Export Modal -->
+  <div id="sql-modal" class="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-panel border border-border rounded-2xl w-full max-w-3xl flex flex-col max-h-[85vh] overflow-hidden shadow-2xl">
+      <div class="p-6 border-b border-border flex justify-between items-center bg-panel-2">
+        <div>
+          <h2 class="text-lg font-bold font-display text-accent flex items-center gap-2">
+            <i data-lucide="database" class="w-5 h-5"></i>
+            SQLAlchemy-Compatible Database Seed Export
+          </h2>
+          <p class="text-xs text-muted-foreground">Generates INSERT statement mappings compatible with your SQLAlchemy model.</p>
+        </div>
+        <button id="btn-close-modal" class="text-muted-foreground hover:text-foreground">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+      <div class="p-6 overflow-y-auto flex-1 bg-black/40 font-mono text-xs text-emerald-400 select-all leading-relaxed whitespace-pre" id="sql-code-container">
+        <!-- Render SQL Code here -->
+      </div>
+      <div class="p-4 border-t border-border flex justify-end gap-3 bg-panel-2">
+        <button id="btn-copy-sql" class="py-2 px-4 bg-accent text-background font-semibold rounded-lg text-xs hover:brightness-110 active:scale-95 transition">
+          Copy to Clipboard
+        </button>
+        <button id="btn-download-sql" class="py-2 px-4 border border-border text-foreground hover:bg-muted font-semibold rounded-lg text-xs transition">
+          Download SQL File
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 py-3 px-5 bg-accent-2/15 border border-accent-2 text-accent-2 rounded-xl text-xs font-semibold flex items-center gap-2 shadow-xl shadow-accent-2/10 transition-all duration-300 transform translate-y-12 opacity-0 pointer-events-none">
+    <i data-lucide="check-circle" class="w-4 h-4"></i>
+    <span id="toast-message">Post saved successfully!</span>
+  </div>
+
+  <!-- Quill Rich Text Editor Script -->
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+  <!-- Application Logic JS -->
+  <script src="app.js"></script>
+</body>
+</html>
