@@ -1,6 +1,6 @@
 ---
 title: Building Resilient Distributed Systems in 2026
-date: Sep 25, 2026
+date: Sep 27, 2026
 readTime: 4 min read
 pinned: false
 tags: [SYSTEM DESIGN, DEVOPS, CLOUD]
