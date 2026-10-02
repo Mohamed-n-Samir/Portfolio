@@ -1,6 +1,6 @@
 ---
 title: The Shift Toward Edge Computing and Serverless Architecture
-date: Oct 1, 2026
+date: Oct 2, 2026
 readTime: 4 min read
 pinned: false
 tags: [EDGE, SERVERLESS, WEB DEV]
